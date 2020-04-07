@@ -1,0 +1,26 @@
+[
+     {
+          "nom": "ocp",
+          "id": 1,
+          "chef_département": "safi",
+          "description": "ppp"
+     },
+     {
+          "nom": "ddd",
+          "id": 2,
+          "chef_département": "d",
+          "description": "d"
+     },
+     {
+          "nom": "dd",
+          "id": 3,
+          "chef_département": "d",
+          "description": "ddd"
+     },
+     {
+          "nom": "ccccccc",
+          "id": 4,
+          "chef_département": "ccccccc",
+          "description": "cccccccccccc"
+     }
+]
