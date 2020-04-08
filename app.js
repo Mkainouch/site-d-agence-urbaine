@@ -1,12 +1,12 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const path = require('path')
-const fs = require('fs')
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const path = require('path');
+const fs = require('fs');
+var data = JSON.parse(fs.readFileSync("data/departement.json"));
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, "public")))
-
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public/html/home.html'))
 })
@@ -27,7 +27,7 @@ app.get('/page1', (req, res) => {
     res.redirect('/departement');
 });
 app.get('/services', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'public/html/services.html'))
+    res.render('pages/services.hbs',{data});
 })
 app.get('/logout', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public/html/home.html'))
@@ -46,17 +46,19 @@ app.post('/se-connecter', (req, res) => {
 
     res.redirect("/se-connecter");
 })
-app.post('/services', (req, res) => {
+app.post('/services',urlencodedParser,(req, res) => {
+    var Question = JSON.parse(fs.readFileSync("data/qestions.json"));
     let qestion = {
         Nom: req.body.name,
         Email: req.body.email,
         Subject: req.body.subject,
         Message: req.body.message,
     }
-    fs.appendFileSync('./data/qestions.json', JSON.stringify(qestion))
-
-    res.redirect("/se-connecter");
-})
+    Question.push(qestion);
+    // console.log(qestion);
+    fs.writeFileSync('./data/qestions.json',JSON.stringify(Question));
+    res.render('pages/services.hbs',{data});
+});
 
 app.set('view engine','ejs');
 var list=[];
@@ -77,6 +79,6 @@ app.get('/services', (req, res)=>{
     
 })
 
-app.listen(2020, function () {
+app.listen(1111, function () {
     console.log('runing....')
 })
